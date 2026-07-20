@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Id": "io.github.gpontespc.claudeusage",
+        "Name": "Claude Usage",
+        "Name[pt_BR]": "Uso do Claude",
+        "Description": "Limites de uso do Claude Code no painel",
+        "Description[pt_BR]": "Limites de uso do Claude Code no painel",
+        "Icon": "utilities-system-monitor",
+        "Category": "System Information",
+        "License": "MIT",
+        "Version": "0.1.0",
+        "Authors": [
+            {
+                "Name": "Guilherme Pontes",
+                "Email": "46386501+gpontespc@users.noreply.github.com"
+            }
+        ]
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

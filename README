@@ -1,0 +1,67 @@
+Claude Usage Plasmoid
+=====================
+
+A panel widget for KDE Plasma 6 that shows your Claude Code usage limits
+-- the 5-hour session window and the 7-day rolling window -- read
+directly from Anthropic's OAuth usage API.  It is the Plasma equivalent
+of the Waybar widgets claudebar and ai-usagebar.
+
+The compact form shown in the panel is a dual ring: the 5-hour window on
+the outside, the 7-day window on the inside, with the higher of the two
+percentages in the centre and coloured from green to red as usage rises.
+Clicking it opens a popup with labelled progress bars, a countdown to
+each reset and the extra-credit balance.  A middle click forces a
+refresh.
+
+
+How it works
+------------
+
+`contents/scripts/fetch-usage.sh' reads the OAuth token that the
+`claude' CLI writes to `~/.claude/.credentials.json' and queries
+
+    https://api.anthropic.com/api/oauth/usage
+
+caching the result for 55 seconds.  The QML front end
+(`contents/ui/main.qml') polls that script once a minute through a
+Plasma5Support DataSource and renders the result with Kirigami.  The
+token is only ever sent to Anthropic; nothing is written anywhere but
+the local cache.
+
+
+Requirements
+------------
+
+Plasma 6 (Qt 6 / Kirigami) at run time, plus `curl', `jq' and `bash'
+for the fetch script.
+
+
+Installation
+------------
+
+Run
+
+    ./install.sh
+
+which symlinks the package into
+`~/.local/share/plasma/plasmoids/io.github.gpontespc.claudeusage' so that edits are
+picked up live.  Then right-click the panel, choose "Add Widgets" and
+add "Claude Usage".
+
+To try it in isolation, without touching your panel, run
+
+    plasmoidviewer -a io.github.gpontespc.claudeusage
+
+from the plasma-sdk package.
+
+
+Notes
+-----
+
+The widget does not refresh the OAuth token itself; it relies on the
+`claude' CLI keeping `~/.claude/.credentials.json' current.  When the
+token has expired the widget reports it and asks you to run the `claude'
+CLI to renew.
+
+Only Anthropic is supported.  The fetch script is small and is the only
+place that would need changing to add another vendor.
